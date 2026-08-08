@@ -1,0 +1,483 @@
+[
+  {
+    "title": "Kebaya",
+    "region": "Jawa Tengah & Jawa Timur",
+    "question": "Pakaian tradisional wanita yang terbuat dari bahan tipis dan tembus pandang, biasanya dipadukan dengan kain batik adalah?",
+    "options": [
+      "Baju Kurung",
+      "Kebaya",
+      "Baju Bodo",
+      "Ulos"
+    ],
+    "answerIndex": 1,
+    "image": "kebaya.jpg"
+  },
+  {
+    "title": "Ulos",
+    "region": "Sumatera Utara (Batak)",
+    "question": "Kain tenun khas suku Batak yang sering digunakan dalam upacara adat adalah?",
+    "options": [
+      "Songket",
+      "Batik",
+      "Ulos",
+      "Tenun Ikat"
+    ],
+    "answerIndex": 2,
+    "image": "ulos.jpg"
+  },
+  {
+    "title": "Baju Bodo",
+    "region": "Sulawesi Selatan (Bugis & Makassar)",
+    "question": "Pakaian adat wanita dari Sulawesi Selatan yang berbentuk persegi empat dan memiliki lengan pendek adalah?",
+    "options": [
+      "Kebaya Encim",
+      "Baju Kurung",
+      "Baju Melayu",
+      "Baju Bodo"
+    ],
+    "answerIndex": 3,
+    "image": "baju_bodo.jpg"
+  },
+  {
+    "title": "Payas Agung",
+    "region": "Bali",
+    "question": "Pakaian adat pria Bali yang dikenakan saat upacara keagamaan besar disebut?",
+    "options": [
+      "Payas Agung",
+      "Saput Poleng",
+      "Safari",
+      "Kemben"
+    ],
+    "answerIndex": 0,
+    "image": "payas_agung.jpg"
+  },
+  {
+    "title": "Baju Kurung",
+    "region": "Riau & Kepulauan Riau",
+    "question": "Pakaian adat wanita Melayu yang longgar dan menutupi seluruh tubuh adalah?",
+    "options": [
+      "Teluk Belanga",
+      "Kebaya Labuh",
+      "Baju Kurung",
+      "Baju Panjang"
+    ],
+    "answerIndex": 2,
+    "image": "baju_kurung.jpg"
+  },
+  {
+    "title": "Koteka",
+    "region": "Papua",
+    "question": "Pakaian tradisional pria Papua yang terbuat dari labu kering adalah?",
+    "options": [
+      "Cawat",
+      "Sarung Goyor",
+      "Koteka",
+      "Kampuh"
+    ],
+    "answerIndex": 2,
+    "image": "koteka.jpg"
+  },
+  {
+    "title": "Aesan Gede",
+    "region": "Sumatera Selatan (Palembang)",
+    "question": "Pakaian pengantin adat Palembang yang mewah dengan hiasan emas dan mahkota disebut?",
+    "options": [
+      "Limar",
+      "Aesan Gede",
+      "Songket Lepus",
+      "Tanduak"
+    ],
+    "answerIndex": 1,
+    "image": "aesan_gede.jpg"
+  },
+  {
+    "title": "Bundo Kanduang",
+    "region": "Sumatera Barat (Minangkabau)",
+    "question": "Pakaian adat wanita Minangkabau yang dilengkapi dengan hiasan kepala berbentuk tanduk kerbau disebut?",
+    "options": [
+      "Limpapeh Rumah Nan Gadang",
+      "Bundo Kanduang",
+      "Penghulu",
+      "Suntiang"
+    ],
+    "answerIndex": 1,
+    "image": "bundo_kanduang.jpg"
+  },
+  {
+    "title": "Ulee Balang",
+    "region": "Aceh",
+    "question": "Pakaian adat pria Aceh yang dikenakan oleh pemimpin tradisional adalah?",
+    "options": [
+      "Meukasah",
+      "Linto Baro",
+      "Ulee Balang",
+      "Cekak Musang"
+    ],
+    "answerIndex": 2,
+    "image": "ulee_balang.jpg"
+  },
+  {
+    "title": "Amaravati",
+    "region": "Kalimantan Timur (Dayak)",
+    "question": "Pakaian adat suku Dayak yang dihiasi dengan manik-manik dan bulu burung enggang adalah?",
+    "options": [
+      "Sapei Sapaq",
+      "Ta'a",
+      "King Baba",
+      "Amaravati"
+    ],
+    "answerIndex": 3,
+    "image": "amaravati.jpg"
+  },
+  {
+    "title": "Dodot",
+    "region": "Jawa Tengah & DIY (Keraton)",
+    "question": "Kain panjang yang dikenakan oleh raja atau bangsawan Jawa saat upacara resmi disebut?",
+    "options": [
+      "Beskap",
+      "Surjan",
+      "Dodot",
+      "Kampuh"
+    ],
+    "answerIndex": 2,
+    "image": "dodot.jpg"
+  },
+  {
+  "title": "Baju Nggembe",
+  "region": "Sulawesi Tengah (Kaili)",
+  "question": "Pakaian adat wanita Sulawesi Tengah yang dihiasi manik-manik dan renda emas, biasa dipakai suku Kaili adalah?",
+  "options": [
+    "Baju Bodo",
+    "Baju Nggembe",
+    "Laku Tepu",
+    "Pattuqduq Towaine"
+    ],
+    "answerIndex": 1,
+    "image": "baju_nggembe.jpg"
+  },
+  {
+    "title": "Teluk Belanga",
+    "region": "Riau & Jambi",
+    "question": "Baju pria Melayu dengan warna cerah, biasanya dipadukan dengan songket adalah?",
+    "options": [
+      "Baju Melayu",
+      "Teluk Belanga",
+      "Kurung Cekak Musang",
+      "Safari"
+    ],
+    "answerIndex": 1,
+    "image": "teluk_belanga.jpg"
+  },
+  {
+    "title": "Biliu & Makuta",
+    "region": "Gorontalo",
+    "question": "Pakaian adat perempuan Gorontalo yang dilengkapi dengan hiasan kepala tinggi disebut?",
+    "options": [
+      "Baju Quale",
+      "Mukuta",
+      "Biliu & Makuta",
+      "Polopalo"
+    ],
+    "answerIndex": 2,
+    "image": "biliu_makuta.jpg"
+  },
+  {
+    "title": "Cele & Rimpu",
+    "region": "Nusa Tenggara Barat (Bima)",
+    "question": "Pakaian adat wanita Bima yang ditandai dengan penutup kepala dan wajah adalah?",
+    "options": [
+      "Lambung",
+      "Cele & Rimpu",
+      "Pegon",
+      "Mbojo"
+    ],
+    "answerIndex": 1,
+    "image": "cele_rimpu.jpg"
+  },
+  {
+    "title": "Pakaian Suku Sabu",
+    "region": "Nusa Tenggara Timur",
+    "question": "Pakaian adat resmi Nusa Tenggara Timur yang berasal dari kebudayaan Suku Sabu adalah?",
+    "options": [
+      "Pegon",
+      "Lambung",
+      "Pakaian Suku Sabu",
+      "Cele & Rimpu"
+    ],
+    "answerIndex": 2,
+    "image": "pakaian_suku_sabu.jpg"
+  },
+  {
+    "title": "Baju Betabur",
+    "region": "Bengkulu",
+    "question": "Pakaian pengantin adat Bengkulu yang berbahan beludru dengan hiasan songket adalah?",
+    "options": [
+      "Baju Betabur",
+      "Aesan Gede",
+      "Baju Kurung Tanggung",
+      "Tapis"
+    ],
+    "answerIndex": 0,
+    "image": "baju_betabur.jpg"
+  },
+  {
+    "title": "Baju Kurung Tanggung",
+    "region": "Jambi",
+    "question": "Pakaian adat Melayu Jambi yang dipadukan dengan kain songket khas Jambi disebut?",
+    "options": [
+      "Teluk Belanga",
+      "Baju Kurung Tanggung",
+      "Baju Betabur",
+      "Baju Bodo"
+    ],
+    "answerIndex": 1,
+    "image": "baju_kurung_tanggung.jpg"
+  },
+  {
+    "title": "Tapis",
+    "region": "Lampung",
+    "question": "Kain tenun tradisional Lampung dengan motif sulaman benang emas atau perak adalah?",
+    "options": [
+      "Songket",
+      "Ulos",
+      "Tapis",
+      "Cual"
+    ],
+    "answerIndex": 2,
+    "image": "tapis.jpg"
+  },
+  {
+    "title": "Paksian",
+    "region": "Bangka Belitung",
+    "question": "Pakaian adat wanita Bangka Belitung yang dilengkapi mahkota bernama Paksian dipengaruhi budaya?",
+    "options": [
+      "Arab",
+      "Tionghoa",
+      "India",
+      "Eropa"
+    ],
+    "answerIndex": 1,
+    "image": "paksian.jpg"
+  },
+  {
+    "title": "Baju Pangsi",
+    "region": "Banten",
+    "question": "Pakaian adat sederhana dan longgar yang identik dengan suku Baduy di Banten adalah?",
+    "options": [
+      "Baju Pangsi",
+      "Bedahan",
+      "Kebaya Sunda",
+      "Cekak Musang"
+    ],
+    "answerIndex": 0,
+    "image": "baju_pangsi.jpg"
+  },
+  {
+    "title": "Sadariah & Kebaya Encim",
+    "region": "DKI Jakarta (Betawi)",
+    "question": "Pakaian adat Betawi hasil perpaduan budaya Tionghoa, Arab, dan Belanda, yang populer untuk wanita disebut?",
+    "options": [
+      "Kebaya Sunda",
+      "Kebaya Encim",
+      "Kebaya Jawa",
+      "Kebaya Ksatrian"
+    ],
+    "answerIndex": 1,
+    "image": "kebaya_encim.jpg"
+  },
+  {
+    "title": "Kebaya Sunda & Bedahan",
+    "region": "Jawa Barat",
+    "question": "Pakaian adat Sunda untuk pria yang biasa dipasangkan dengan Kebaya Sunda untuk wanita disebut?",
+    "options": [
+      "Bedahan",
+      "Beskap",
+      "Pangsi",
+      "Surjan"
+    ],
+    "answerIndex": 0,
+    "image": "kebaya_sunda_bedahan.jpg"
+  },
+  {
+    "title": "Kesatrian Ageng",
+    "region": "DI Yogyakarta (Keraton)",
+    "question": "Pakaian adat resmi Yogyakarta yang dikenakan keluarga keraton, terdiri dari kebaya, batik, dan aksesori penuh makna filosofis disebut?",
+    "options": [
+      "Jawi Jangkep",
+      "Kesatrian Ageng",
+      "Pesa'an",
+      "Dodot"
+    ],
+    "answerIndex": 1,
+    "image": "kesatrian_ageng.jpg"
+  },
+  {
+    "title": "Pesa'an",
+    "region": "Jawa Timur (Madura)",
+    "question": "Pakaian adat pria Madura yang terdiri dari kaos bergaris merah-putih dan celana longgar hitam disebut?",
+    "options": [
+      "Jawi Jangkep",
+      "Beskap",
+      "Pesa'an",
+      "Surjan"
+    ],
+    "answerIndex": 2,
+    "image": "pesaan.jpg"
+  },
+  {
+    "title": "King Baba & King Tompang",
+    "region": "Kalimantan Barat (Dayak)",
+    "question": "Pakaian adat suku Dayak Kalimantan Barat yang terbuat dari olahan kulit kayu adalah?",
+    "options": [
+      "Sapei Sapaq",
+      "King Baba & King Tompang",
+      "Sangkarut",
+      "Ta'a"
+    ],
+    "answerIndex": 1,
+    "image": "king_baba.jpg"
+  },
+  {
+    "title": "Babaju Kun Galung Pacinan",
+    "region": "Kalimantan Selatan (Banjar)",
+    "question": "Pakaian adat sehari-hari masyarakat Banjar, Kalimantan Selatan, yang mendapat pengaruh budaya Tionghoa disebut?",
+    "options": [
+      "Baamar Galung Pancar Matahari",
+      "Babaju Kun Galung Pacinan",
+      "Sangkarut",
+      "Kustin"
+    ],
+    "answerIndex": 1,
+    "image": "babaju_kun_galung_pacinan.jpg"
+  },
+  {
+    "title": "Sangkarut",
+    "region": "Kalimantan Tengah (Dayak Ngaju)",
+    "question": "Rompi perang tradisional suku Dayak Ngaju di Kalimantan Tengah, biasa terbuat dari kulit kayu atau rotan, disebut?",
+    "options": [
+      "King Baba",
+      "Sapei Sapaq",
+      "Sangkarut",
+      "Ta'a"
+    ],
+    "answerIndex": 2,
+    "image": "sangkarut.jpg"
+  },
+  {
+    "title": "Ta'a & Sapei Sapaq",
+    "region": "Kalimantan Utara (Dayak Kenyah)",
+    "question": "Pakaian adat Dayak Kenyah di Kalimantan Utara yang dihiasi manik-manik dan bulu burung enggang, untuk wanita disebut?",
+    "options": [
+      "King Bibinge",
+      "Ta'a",
+      "Sangkarut",
+      "Biliu"
+    ],
+    "answerIndex": 1,
+    "image": "taa_sapei_sapaq.jpg"
+  },
+  {
+    "title": "Laku Tepu",
+    "region": "Sulawesi Utara (Minahasa)",
+    "question": "Pakaian adat suku Minahasa, Sulawesi Utara, yang biasa dikenakan dalam upacara adat disebut?",
+    "options": [
+      "Laku Tepu",
+      "Kinawo",
+      "Baju Bodo",
+      "Pattuqduq Towaine"
+    ],
+    "answerIndex": 0,
+    "image": "laku_tepu.jpg"
+  },
+  {
+    "title": "Kinawo & Babu Nggawi",
+    "region": "Sulawesi Tenggara (Tolaki)",
+    "question": "Pakaian adat suku Tolaki di Sulawesi Tenggara yang dulunya terbuat dari kulit kayu disebut?",
+    "options": [
+      "Laku Tepu",
+      "Kinawo",
+      "Sangkarut",
+      "Nggembe"
+    ],
+    "answerIndex": 1,
+    "image": "kinawo.jpg"
+  },
+  {
+    "title": "Pattuqduq Towaine",
+    "region": "Sulawesi Barat (Mandar)",
+    "question": "Pakaian adat wanita suku Mandar di Sulawesi Barat yang biasa dikenakan saat upacara pernikahan disebut?",
+    "options": [
+      "Baju Bodo",
+      "Pattuqduq Towaine",
+      "Baju Nggembe",
+      "Kinawo"
+    ],
+    "answerIndex": 1,
+    "image": "pattuqduq_towaine.jpg"
+  },
+  {
+    "title": "Baju Cele",
+    "region": "Maluku",
+    "question": "Pakaian adat khas Maluku dengan motif garis-garis geometris berwarna cerah, biasa dipadukan dengan kain salele, adalah?",
+    "options": [
+      "Manteren Lamo",
+      "Baju Cele",
+      "Baju Bodo",
+      "Cele & Rimpu"
+    ],
+    "answerIndex": 1,
+    "image": "baju_cele.jpg"
+  },
+  {
+    "title": "Manteren Lamo",
+    "region": "Maluku Utara",
+    "question": "Pakaian adat kebesaran raja/sultan di Maluku Utara, biasa dipakai dalam upacara kesultanan, disebut?",
+    "options": [
+      "Baju Cele",
+      "Manteren Lamo",
+      "Payas Agung",
+      "Ulee Balang"
+    ],
+    "answerIndex": 1,
+    "image": "manteren_lamo.jpg"
+  },
+  {
+    "title": "Pakaian Adat Ewer",
+    "region": "Papua Barat",
+    "question": "Pakaian adat khas Papua Barat yang biasa dihiasi dengan bulu burung cendrawasih disebut?",
+    "options": [
+      "Koteka",
+      "Pakaian Adat Ewer",
+      "Pummi",
+      "Holim"
+    ],
+    "answerIndex": 1,
+    "image": "pakaian_adat_ewer.jpg"
+  },
+  {
+    "title": "Pummi",
+    "region": "Papua Selatan",
+    "question": "Pakaian adat tradisional khas Papua Selatan yang dikenakan dalam upacara adat disebut?",
+    "options": [
+      "Ewer",
+      "Koteka",
+      "Pummi",
+      "Sapo Tetagas"
+    ],
+    "answerIndex": 2,
+    "image": "pummi.jpg"
+  },
+  {
+    "title": "Boe & Kuli Bia",
+    "region": "Papua Barat Daya",
+    "question": "Aksesori adat khas Papua Barat Daya yang biasa dipadukan dengan topi kasuari dan kalung manik-manik disebut?",
+    "options": [
+      "Boe & Kuli Bia",
+      "Ewer",
+      "Pummi",
+      "Sangkarut"
+    ],
+    "answerIndex": 0,
+    "image": "boe_kuli_bia.jpg"
+  }
+]

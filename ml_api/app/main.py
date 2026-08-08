@@ -1,0 +1,47 @@
+from contextlib import asynccontextmanager
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from app.routers import prediction, model_metrics
+from app.ml import predictor
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    try:
+        predictor.load_models()
+        print("Model Random Forest & SVM berhasil dimuat.")
+    except FileNotFoundError as e:
+        print(f"PERINGATAN: {e}")
+
+    yield
+
+    print("Server dimatikan.")
+
+
+app = FastAPI(
+    title="WastraQuest ML API",
+    description="Backend prediksi kelulusan peserta - Random Forest vs SVM",
+    version="1.0.0",
+    lifespan=lifespan,
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(prediction.router)
+app.include_router(model_metrics.router)
+
+
+@app.get("/")
+def root():
+    return {"status": "ok", "message": "WastraQuest ML API is running"}
+
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
