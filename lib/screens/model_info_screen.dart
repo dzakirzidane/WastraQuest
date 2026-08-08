@@ -12,7 +12,7 @@ class ModelInfoScreen extends StatefulWidget {
 }
 
 class _ModelInfoScreenState extends State<ModelInfoScreen> {
-  static const String _baseUrl = 'http://127.0.0.1:8000';
+  static const String _baseUrl = 'https://wastraquest-production.up.railway.app';
   static const _rfColor = Color(0xFF2E7D32);
   static const _svmColor = Color(0xFF1565C0);
 
