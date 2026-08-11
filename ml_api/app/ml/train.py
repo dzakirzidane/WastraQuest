@@ -3,6 +3,8 @@ import json
 import joblib
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.model_selection import train_test_split, StratifiedKFold, cross_validate
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
@@ -22,6 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 DATA_PATH = os.path.join(BASE_DIR, "app", "data", "dataset.csv")
 MODELS_DIR = os.path.join(BASE_DIR, "saved_models")
 REPORT_PATH = os.path.join(BASE_DIR, "app", "data", "model_comparison_report.txt")
+PLOTS_DIR = os.path.join(BASE_DIR, "app", "data", "plots")
 FEATURE_COLUMNS = ["jawaban_benar", "tingkat_kesulitan"]
 TARGET_COLUMN = "kelulusan"
 CV_FOLDS = 5
@@ -77,11 +80,67 @@ def evaluate_holdout(name, model, X_test, y_test):
         f"\nClassification Report:\n{report}\n"
     )
     print(text)
-    return {"accuracy": acc, "precision": prec, "recall": rec, "f1_score": f1}, text
+    return {"accuracy": acc, "precision": prec, "recall": rec, "f1_score": f1, "cm": cm}, text
+
+
+def plot_confusion_matrices(cm_rf, cm_svm, save_path, labels=("Tidak Lulus", "Lulus")):
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+    sns.heatmap(cm_rf, annot=True, fmt='d', cmap='Blues',
+                xticklabels=labels, yticklabels=labels, ax=axes[0], cbar=False)
+    axes[0].set_title('Confusion Matrix - Random Forest')
+    axes[0].set_xlabel('Predicted')
+    axes[0].set_ylabel('Actual')
+
+    sns.heatmap(cm_svm, annot=True, fmt='d', cmap='Greens',
+                xticklabels=labels, yticklabels=labels, ax=axes[1], cbar=False)
+    axes[1].set_title('Confusion Matrix - SVM')
+    axes[1].set_xlabel('Predicted')
+    axes[1].set_ylabel('Actual')
+
+    plt.tight_layout()
+    plt.savefig(save_path, dpi=150, bbox_inches='tight')
+    plt.close(fig)
+    print(f"Confusion matrix disimpan ke: {save_path}")
+
+
+def plot_metrics_comparison(rf_holdout, svm_holdout, save_path):
+    metric_labels = ["Accuracy", "Precision", "Recall", "F1"]
+    rf_values = [rf_holdout["accuracy"], rf_holdout["precision"], rf_holdout["recall"], rf_holdout["f1_score"]]
+    svm_values = [svm_holdout["accuracy"], svm_holdout["precision"], svm_holdout["recall"], svm_holdout["f1_score"]]
+
+    x = np.arange(len(metric_labels))
+    width = 0.35
+
+    fig, ax = plt.subplots(figsize=(9, 6))
+    bars1 = ax.bar(x - width / 2, rf_values, width, label='Random Forest', color='#4C72B0')
+    bars2 = ax.bar(x + width / 2, svm_values, width, label='SVM', color='#55A868')
+
+    ax.set_ylabel('Score')
+    ax.set_title('Perbandingan Metrik (Hold-out Test): Random Forest vs SVM')
+    ax.set_xticks(x)
+    ax.set_xticklabels(metric_labels)
+    ax.set_ylim(0, 1.0)
+    ax.legend()
+    ax.grid(axis='y', linestyle='--', alpha=0.4)
+
+    for bars in (bars1, bars2):
+        for bar in bars:
+            height = bar.get_height()
+            ax.annotate(f'{height:.4f}',
+                        xy=(bar.get_x() + bar.get_width() / 2, height),
+                        xytext=(0, 3), textcoords="offset points",
+                        ha='center', va='bottom', fontsize=9)
+
+    plt.tight_layout()
+    plt.savefig(save_path, dpi=150, bbox_inches='tight')
+    plt.close(fig)
+    print(f"Bar chart disimpan ke: {save_path}")
 
 
 def main():
     os.makedirs(MODELS_DIR, exist_ok=True)
+    os.makedirs(PLOTS_DIR, exist_ok=True)
 
     print("Memuat dataset...")
     X, y = load_data()
@@ -113,6 +172,18 @@ def main():
     rf_holdout, rf_holdout_text = evaluate_holdout("Random Forest", rf_model, X_test_scaled, y_test)
     svm_holdout, svm_holdout_text = evaluate_holdout("SVM", svm_model, X_test_scaled, y_test)
     report_chunks += [rf_holdout_text, svm_holdout_text]
+
+    # ------------------------------------------------------------
+    # Visualisasi: confusion matrix (RF vs SVM) + bar chart metrik
+    # ------------------------------------------------------------
+    plot_confusion_matrices(
+        rf_holdout["cm"], svm_holdout["cm"],
+        save_path=os.path.join(PLOTS_DIR, "confusion_matrices.png"),
+    )
+    plot_metrics_comparison(
+        rf_holdout, svm_holdout,
+        save_path=os.path.join(PLOTS_DIR, "metrics_comparison.png"),
+    )
 
     comparison_text = (
         f"\n{'=' * 60}\n"
