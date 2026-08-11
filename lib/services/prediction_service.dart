@@ -11,7 +11,7 @@ class PredictionException implements Exception {
 }
 
 class PredictionService {
-  static const String baseUrl = 'http://192.168.110.19:8000';
+  static const String baseUrl = 'https://wastraquest-production.up.railway.app';
 
   Future<PredictionResponse> predictKelulusan(PredictionRequest request) async {
     final url = Uri.parse('$baseUrl/predict');
