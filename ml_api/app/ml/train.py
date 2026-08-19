@@ -159,9 +159,6 @@ def main():
     svm_holdout, svm_holdout_text = evaluate_holdout("SVM", svm_model, X_test_scaled, y_test)
     report_chunks += [svm_holdout_text]
 
-    # ------------------------------------------------------------
-    # Visualisasi: confusion matrix + bar chart metrik
-    # ------------------------------------------------------------
     plot_confusion_matrix(
         svm_holdout["cm"],
         save_path=os.path.join(PLOTS_DIR, "confusion_matrix.png"),
