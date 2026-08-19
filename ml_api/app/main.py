@@ -1,15 +1,19 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import prediction, model_metrics
+from app.routers import prediction, model_metrics, quiz_results
 from app.ml import predictor
+from app.database import init_db
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    init_db()
+    print("Tabel database siap.")
+
     try:
         predictor.load_models()
-        print("Model Random Forest & SVM berhasil dimuat.")
+        print("Model SVM berhasil dimuat.")
     except FileNotFoundError as e:
         print(f"PERINGATAN: {e}")
 
@@ -20,8 +24,8 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="WastraQuest ML API",
-    description="Backend prediksi kelulusan peserta - Random Forest vs SVM",
-    version="1.0.0",
+    description="Backend prediksi kelulusan peserta - SVM",
+    version="1.1.0",
     lifespan=lifespan,
 )
 
@@ -35,6 +39,7 @@ app.add_middleware(
 
 app.include_router(prediction.router)
 app.include_router(model_metrics.router)
+app.include_router(quiz_results.router)
 
 
 @app.get("/")
