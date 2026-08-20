@@ -58,8 +58,6 @@ class UserNotifier extends StateNotifier<UserProfile?> {
     await saveProfile(resetProfile);
   }
 
-  // Hapus profile sepenuhnya (dipakai saat mau balik ke ProfileSetupScreen
-  // biar redirect di GoRouter tidak mantulin ke /home lagi)
   Future<void> clearProfile() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('user_profile');

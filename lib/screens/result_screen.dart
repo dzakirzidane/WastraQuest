@@ -6,7 +6,13 @@ import '../providers/quiz_provider.dart';
 import '../providers/user_provider.dart';
 import '../providers/prediction_provider.dart';
 import '../models/prediction_model.dart';
+import '../models/quiz_result_model.dart';
+import '../services/quiz_result_service.dart';
 import 'dart:math';
+
+// Ambang batas kelulusan kuis. Samain sama batas warna hijau di
+// getGradeColor() supaya konsisten di seluruh app.
+const int kKelulusanThreshold = 60;
 
 class ResultScreen extends ConsumerStatefulWidget {
   const ResultScreen({super.key});
@@ -55,12 +61,31 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
         });
       }
 
-      // Panggil prediksi ML (Random Forest vs SVM) setelah kuis selesai
+      // Panggil prediksi ML (SVM) setelah kuis selesai
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ref.read(predictionProviderNotifier).predict(
               jawabanBenar: quizState.correctAnswers,
               tingkatKesulitan: quizState.difficulty,
             );
+      });
+
+      // Simpan hasil ASLI kuis ke database, jadi calon data training
+      // tambahan buat retrain model SVM nanti.
+      QuizResultService()
+          .submitQuizResult(
+            QuizResultRequest(
+              totalSoal: totalQuestions,
+              jawabanBenar: quizState.correctAnswers,
+              skorAkhir: quizState.score,
+              tingkatKesulitan: quizState.difficulty,
+              persentaseBenar: percentage.toDouble(),
+              lulus: percentage >= kKelulusanThreshold,
+            ),
+          )
+          .catchError((e) {
+        // Gagal simpan hasil kuis gak boleh ganggu pengalaman user,
+        // cukup dicatat di console.
+        debugPrint('Gagal menyimpan hasil kuis: $e');
       });
     }
   }
@@ -121,17 +146,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
               ),
             ),
             const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: _buildModelTile('Random Forest', res.randomForest),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: _buildModelTile('SVM', res.svm),
-                ),
-              ],
-            ),
+            _buildModelTile('SVM', res.svm),
           ],
         ),
       );
@@ -145,6 +160,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
     final color = isLulus ? const Color(0xFF2ECC71) : const Color(0xFFE74C3C);
 
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: const Color(0xFF232930),
@@ -389,7 +405,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
                         ),
                       ),
 
-                      // Prediksi ML (Random Forest vs SVM)
+                      // Prediksi ML (SVM)
                       _buildPredictionSection(prediction),
 
                       const SizedBox(height: 30),

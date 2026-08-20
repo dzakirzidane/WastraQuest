@@ -20,13 +20,11 @@ class ModelPrediction {
 class PredictionResponse {
   final int jawabanBenar;
   final String tingkatKesulitan;
-  final ModelPrediction randomForest;
   final ModelPrediction svm;
 
   PredictionResponse({
     required this.jawabanBenar,
     required this.tingkatKesulitan,
-    required this.randomForest,
     required this.svm,
   });
 
@@ -34,7 +32,6 @@ class PredictionResponse {
     return PredictionResponse(
       jawabanBenar: json['jawaban_benar'] as int,
       tingkatKesulitan: json['tingkat_kesulitan'] as String,
-      randomForest: ModelPrediction.fromJson(json['random_forest']),
       svm: ModelPrediction.fromJson(json['svm']),
     );
   }

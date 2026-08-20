@@ -13,7 +13,6 @@ class ModelInfoScreen extends StatefulWidget {
 
 class _ModelInfoScreenState extends State<ModelInfoScreen> {
   static const String _baseUrl = 'https://wastraquest-production.up.railway.app';
-  static const _rfColor = Color(0xFF2E7D32);
   static const _svmColor = Color(0xFF1565C0);
 
   late Future<Map<String, dynamic>> _metricsFuture;
@@ -95,13 +94,9 @@ class _ModelInfoScreenState extends State<ModelInfoScreen> {
   }
 
   Widget _buildContent(Map<String, dynamic> data) {
-    final rf = data['random_forest'] as Map<String, dynamic>;
     final svm = data['svm'] as Map<String, dynamic>;
-    final winner = data['winner_by_cv_accuracy'] as String? ?? '-';
 
-    final rfCv = rf['cross_validation'] as Map<String, dynamic>;
     final svmCv = svm['cross_validation'] as Map<String, dynamic>;
-    final rfHoldout = rf['holdout'] as Map<String, dynamic>;
     final svmHoldout = svm['holdout'] as Map<String, dynamic>;
 
     List<double> cvValues(Map<String, dynamic> cv) => [
@@ -118,12 +113,12 @@ class _ModelInfoScreenState extends State<ModelInfoScreen> {
           (h['f1_score'] as num).toDouble(),
         ];
 
-    final rfParams = rf['params'] as Map<String, dynamic>;
     final svmParams = svm['params'] as Map<String, dynamic>;
     final datasetSize = data['dataset_size'];
     final trainSize = data['train_size'];
     final testSize = data['test_size'];
     final cvFolds = data['cv_folds'];
+    final cvAccuracy = (svmCv['accuracy']['mean'] as num).toDouble();
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -141,12 +136,12 @@ class _ModelInfoScreenState extends State<ModelInfoScreen> {
             _sectionTitle('Bagaimana Sistem Ini Menilai Kelulusan?'),
             const SizedBox(height: 8),
             Text(
-              'Sistem menggunakan dua algoritma machine learning untuk '
-              'memprediksi kelulusan peserta berdasarkan jumlah jawaban '
-              'benar dan tingkat kesulitan soal. Kedua model dilatih dan '
-              'dievaluasi pada dataset yang sama ($datasetSize data, '
-              '$trainSize untuk training dan $testSize untuk pengujian) '
-              'agar hasilnya bisa dibandingkan secara adil.',
+              'Sistem menggunakan algoritma machine learning Support Vector '
+              'Machine (SVM) untuk memprediksi kelulusan peserta berdasarkan '
+              'jumlah jawaban benar dan tingkat kesulitan soal. Model ini '
+              'dilatih dan dievaluasi pada $datasetSize data ($trainSize '
+              'untuk training dan $testSize untuk pengujian), dan terus '
+              'diperbarui seiring bertambahnya data hasil kuis peserta.',
               style: const TextStyle(fontSize: 14, height: 1.5),
             ),
             const SizedBox(height: 24),
@@ -165,26 +160,9 @@ class _ModelInfoScreenState extends State<ModelInfoScreen> {
                 'C = ${svmParams['C']}, gamma = ${svmParams['gamma']}',
               ],
             ),
-            const SizedBox(height: 16),
-
-            _modelCard(
-              title: 'Random Forest',
-              color: _rfColor,
-              description:
-                  'Random Forest menggabungkan banyak pohon keputusan '
-                  '(decision tree) yang masing-masing dilatih pada subset '
-                  'data secara acak, lalu hasil prediksinya digabung lewat '
-                  'voting mayoritas. Pendekatan ini membuat model lebih '
-                  'stabil dan tidak mudah overfitting dibanding satu pohon '
-                  'keputusan tunggal.',
-              params: [
-                'Jumlah pohon (n_estimators): ${rfParams['n_estimators']}',
-                'random_state = ${rfParams['random_state']}',
-              ],
-            ),
 
             const SizedBox(height: 32),
-            _sectionTitle('Perbandingan Kinerja — $cvFolds-Fold Cross Validation'),
+            _sectionTitle('Kinerja Model — $cvFolds-Fold Cross Validation'),
             const SizedBox(height: 4),
             const Text(
               'Rata-rata skor dari beberapa kali pengujian silang pada seluruh data.',
@@ -194,17 +172,13 @@ class _ModelInfoScreenState extends State<ModelInfoScreen> {
             SizedBox(
               height: 260,
               child: _MetricBarChart(
-                rfValues: cvValues(rfCv),
-                svmValues: cvValues(svmCv),
-                rfColor: _rfColor,
-                svmColor: _svmColor,
+                values: cvValues(svmCv),
+                color: _svmColor,
               ),
             ),
-            const SizedBox(height: 12),
-            _legend(),
 
             const SizedBox(height: 32),
-            _sectionTitle('Perbandingan Kinerja — Hold-out Test Set'),
+            _sectionTitle('Kinerja Model — Hold-out Test Set'),
             const SizedBox(height: 4),
             Text(
               'Skor pada $testSize data uji yang tidak dilihat model saat training.',
@@ -214,14 +188,10 @@ class _ModelInfoScreenState extends State<ModelInfoScreen> {
             SizedBox(
               height: 260,
               child: _MetricBarChart(
-                rfValues: holdoutValues(rfHoldout),
-                svmValues: holdoutValues(svmHoldout),
-                rfColor: _rfColor,
-                svmColor: _svmColor,
+                values: holdoutValues(svmHoldout),
+                color: _svmColor,
               ),
             ),
-            const SizedBox(height: 12),
-            _legend(),
 
             const SizedBox(height: 32),
             Container(
@@ -238,10 +208,10 @@ class _ModelInfoScreenState extends State<ModelInfoScreen> {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      'Berdasarkan rata-rata accuracy cross-validation, model '
-                      'dengan performa terbaik saat ini adalah $winner. '
-                      'Data ini diambil langsung dari hasil training '
-                      'terakhir di server.',
+                      'Rata-rata akurasi model saat ini adalah '
+                      '${(cvAccuracy * 100).toStringAsFixed(1)}% (cross-validation). '
+                      'Data ini diambil langsung dari hasil training terakhir '
+                      'di server.',
                       style: const TextStyle(fontSize: 12.5, height: 1.4, color: Colors.black87),
                     ),
                   ),
@@ -320,44 +290,16 @@ class _ModelInfoScreenState extends State<ModelInfoScreen> {
       ),
     );
   }
-
-  Widget _legend() {
-    return Row(
-      children: [
-        _legendDot(_rfColor, 'Random Forest'),
-        const SizedBox(width: 20),
-        _legendDot(_svmColor, 'SVM'),
-      ],
-    );
-  }
-
-  Widget _legendDot(Color color, String label) {
-    return Row(
-      children: [
-        Container(
-          width: 12,
-          height: 12,
-          decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(3)),
-        ),
-        const SizedBox(width: 6),
-        Text(label, style: const TextStyle(fontSize: 12.5)),
-      ],
-    );
-  }
 }
 
 class _MetricBarChart extends StatelessWidget {
   const _MetricBarChart({
-    required this.rfValues,
-    required this.svmValues,
-    required this.rfColor,
-    required this.svmColor,
+    required this.values,
+    required this.color,
   });
 
-  final List<double> rfValues; 
-  final List<double> svmValues;
-  final Color rfColor;
-  final Color svmColor;
+  final List<double> values;
+  final Color color;
 
   static const _labels = ['Accuracy', 'Precision', 'Recall', 'F1-Score'];
 
@@ -416,19 +358,12 @@ class _MetricBarChart extends StatelessWidget {
             x: i,
             barRods: [
               BarChartRodData(
-                toY: rfValues[i],
-                color: rfColor,
-                width: 14,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(3)),
-              ),
-              BarChartRodData(
-                toY: svmValues[i],
-                color: svmColor,
-                width: 14,
+                toY: values[i],
+                color: color,
+                width: 22,
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(3)),
               ),
             ],
-            barsSpace: 6,
           );
         }),
       ),
