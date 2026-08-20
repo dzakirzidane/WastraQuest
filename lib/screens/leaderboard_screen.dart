@@ -14,7 +14,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
   late TabController _tabController;
   final _service = LeaderboardService();
 
-  // index tab -> tingkat_kesulitan (null = semua)
   static const List<int?> _difficultyPerTab = [null, 1, 2, 3];
 
   @override

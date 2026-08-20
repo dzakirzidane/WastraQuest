@@ -27,9 +27,9 @@ class QuizResultCreate(BaseModel):
     total_soal: int = Field(..., gt=0)
     jawaban_benar: int = Field(..., ge=0)
     skor_akhir: int = Field(..., ge=0)
-    tingkat_kesulitan: int = Field(..., ge=1, le=3)  # 1=easy, 2=medium, 3=hard
+    tingkat_kesulitan: int = Field(..., ge=1, le=3)  
     persentase_benar: float = Field(..., ge=0, le=100)
-    kelulusan: int = Field(..., ge=0, le=1)  # hasil ASLI kuis, bukan prediksi
+    kelulusan: int = Field(..., ge=0, le=1)  
     nama_siswa: Optional[str] = None
 
 
