@@ -3,36 +3,40 @@ Support Vector Machine (SVM)
 Prediksi Kelulusan Peserta - WastraQuest
 Fitur yang digunakan: ['jawaban_benar', 'tingkat_kesulitan']
 
+Hyperparameter terbaik (GridSearchCV, scoring=F1): {'C': 100, 'class_weight': 'balanced', 'gamma': 'scale', 'kernel': 'linear'}
+Best CV F1 saat tuning: 0.7506
+
+
 5-Fold Cross Validation - SVM
 ----------------------------------------
-Accuracy    : 0.7870 (+/- 0.0343)
-Precision   : 0.7466 (+/- 0.0478)
-Recall      : 0.6788 (+/- 0.0642)
-F1          : 0.7101 (+/- 0.0513)
+Accuracy    : 0.7770 (+/- 0.0424)
+Precision   : 0.6770 (+/- 0.0568)
+Recall      : 0.8212 (+/- 0.0461)
+F1          : 0.7407 (+/- 0.0422)
 
 
 ==================================================
 Hold-out Test Set - SVM
 ==================================================
-Accuracy  : 0.7750
-Precision : 0.7667
-Recall    : 0.5974
-F1-Score  : 0.6715
+Accuracy  : 0.7800
+Precision : 0.6941
+Recall    : 0.7662
+F1-Score  : 0.7284
 
 Confusion Matrix:
                  Predicted Tidak Lulus  Predicted Lulus
-Actual Tidak Lulus           109                    14
-Actual Lulus                  31                    46
+Actual Tidak Lulus            97                    26
+Actual Lulus                  18                    59
 
 Classification Report:
               precision    recall  f1-score   support
 
- Tidak Lulus       0.78      0.89      0.83       123
-       Lulus       0.77      0.60      0.67        77
+ Tidak Lulus       0.84      0.79      0.82       123
+       Lulus       0.69      0.77      0.73        77
 
     accuracy                           0.78       200
-   macro avg       0.77      0.74      0.75       200
-weighted avg       0.77      0.78      0.77       200
+   macro avg       0.77      0.78      0.77       200
+weighted avg       0.79      0.78      0.78       200
 
 
 
@@ -41,7 +45,7 @@ RINGKASAN (5-Fold Cross Validation) - SVM
 ============================================================
 Metrik         SVM                      
 ------------------------------------------------------------
-Accuracy       0.7870 (+/- 0.0343)
-Precision      0.7466 (+/- 0.0478)
-Recall         0.6788 (+/- 0.0642)
-F1             0.7101 (+/- 0.0513)
+Accuracy       0.7770 (+/- 0.0424)
+Precision      0.6770 (+/- 0.0568)
+Recall         0.8212 (+/- 0.0461)
+F1             0.7407 (+/- 0.0422)

@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.model_selection import train_test_split, StratifiedKFold, cross_validate
+from sklearn.model_selection import train_test_split, StratifiedKFold, cross_validate, GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 from sklearn.metrics import (
@@ -32,6 +32,15 @@ FEATURE_COLUMNS = ["jawaban_benar", "tingkat_kesulitan"]
 TARGET_COLUMN = "kelulusan"
 CV_FOLDS = 5
 SCORING = ["accuracy", "precision", "recall", "f1"]
+
+# Grid buat GridSearchCV. Silakan diperluas kalau mau coba kombinasi lain,
+# tapi makin banyak kombinasi makin lama waktu training.
+PARAM_GRID = {
+    "C": [0.1, 1, 10, 100],
+    "gamma": ["scale", "auto", 0.001, 0.01, 0.1],
+    "kernel": ["rbf", "linear"],
+    "class_weight": [None, "balanced"],
+}
 
 
 def load_data():
@@ -67,6 +76,32 @@ def load_data():
     X = df[FEATURE_COLUMNS]
     y = df[TARGET_COLUMN]
     return X, y
+
+
+def tune_hyperparameters(X_scaled, y):
+    """Cari kombinasi hyperparameter SVM terbaik pakai GridSearchCV,
+    dievaluasi dengan StratifiedKFold + F1 score (lebih cocok buat data
+    yang agak imbalance dibanding accuracy doang)."""
+    skf = StratifiedKFold(n_splits=CV_FOLDS, shuffle=True, random_state=RANDOM_SEED)
+
+    base_model = SVC(probability=True, random_state=RANDOM_SEED)
+    grid = GridSearchCV(
+        base_model,
+        PARAM_GRID,
+        cv=skf,
+        scoring="f1",
+        n_jobs=-1,
+        refit=True,
+    )
+    grid.fit(X_scaled, y)
+
+    print("\n" + "=" * 50)
+    print("Hasil GridSearchCV")
+    print("=" * 50)
+    print(f"Best params : {grid.best_params_}")
+    print(f"Best F1 (CV): {grid.best_score_:.4f}\n")
+
+    return grid.best_params_, grid.best_score_
 
 
 def run_cross_validation(name, model, X_scaled, y):
@@ -184,6 +219,7 @@ def write_metrics_json(svm_model, svm_cv, svm_holdout, n_train, n_test, path):
                 "kernel": params["kernel"],
                 "C": params["C"],
                 "gamma": params["gamma"],
+                "class_weight": params["class_weight"],
             },
         },
     }
@@ -210,11 +246,21 @@ def main():
     X_test_scaled = scaler.transform(X_test)
     X_full_scaled = scaler.transform(X)  # dipakai khusus untuk cross validation
 
-    svm_model = SVC(kernel="rbf", C=1.0, gamma="scale", probability=True, random_state=RANDOM_SEED)
+    print("Mencari hyperparameter terbaik (GridSearchCV)...")
+    best_params, best_cv_f1 = tune_hyperparameters(X_train_scaled, y_train)
 
-    report_chunks = []
+    svm_model = SVC(
+        probability=True,
+        random_state=RANDOM_SEED,
+        **best_params,
+    )
 
-    print("Menjalankan 5-Fold Cross Validation...")
+    report_chunks = [
+        f"\nHyperparameter terbaik (GridSearchCV, scoring=F1): {best_params}\n"
+        f"Best CV F1 saat tuning: {best_cv_f1:.4f}\n"
+    ]
+
+    print("Menjalankan 5-Fold Cross Validation dengan parameter terbaik...")
     svm_cv, svm_cv_text = run_cross_validation("SVM", svm_model, X_full_scaled, y)
     report_chunks += [svm_cv_text]
 
