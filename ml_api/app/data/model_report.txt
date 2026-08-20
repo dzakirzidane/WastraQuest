@@ -1,0 +1,47 @@
+LAPORAN MODEL
+Support Vector Machine (SVM)
+Prediksi Kelulusan Peserta - WastraQuest
+Fitur yang digunakan: ['jawaban_benar', 'tingkat_kesulitan']
+
+5-Fold Cross Validation - SVM
+----------------------------------------
+Accuracy    : 0.7870 (+/- 0.0343)
+Precision   : 0.7466 (+/- 0.0478)
+Recall      : 0.6788 (+/- 0.0642)
+F1          : 0.7101 (+/- 0.0513)
+
+
+==================================================
+Hold-out Test Set - SVM
+==================================================
+Accuracy  : 0.7750
+Precision : 0.7667
+Recall    : 0.5974
+F1-Score  : 0.6715
+
+Confusion Matrix:
+                 Predicted Tidak Lulus  Predicted Lulus
+Actual Tidak Lulus           109                    14
+Actual Lulus                  31                    46
+
+Classification Report:
+              precision    recall  f1-score   support
+
+ Tidak Lulus       0.78      0.89      0.83       123
+       Lulus       0.77      0.60      0.67        77
+
+    accuracy                           0.78       200
+   macro avg       0.77      0.74      0.75       200
+weighted avg       0.77      0.78      0.77       200
+
+
+
+============================================================
+RINGKASAN (5-Fold Cross Validation) - SVM
+============================================================
+Metrik         SVM                      
+------------------------------------------------------------
+Accuracy       0.7870 (+/- 0.0343)
+Precision      0.7466 (+/- 0.0478)
+Recall         0.6788 (+/- 0.0642)
+F1             0.7101 (+/- 0.0513)
