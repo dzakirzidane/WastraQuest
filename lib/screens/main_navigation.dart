@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../screens/difficulty_screen.dart';
 import '../screens/settings_screen.dart';
+import '../screens/leaderboard_screen.dart';
 
 // Provider to manage bottom navigation index
 final navigationIndexProvider = StateProvider<int>((ref) => 0);
@@ -15,6 +16,7 @@ class MainNavigation extends ConsumerWidget {
 
     final screens = [
       const DifficultyScreen(), // Beranda
+      const LeaderboardScreen(), // Peringkat
       const SettingsScreen(), // Pengaturan
     ];
 
@@ -48,11 +50,18 @@ class MainNavigation extends ConsumerWidget {
                       ref.read(navigationIndexProvider.notifier).state = 0,
                 ),
                 _NavItem(
-                  icon: Icons.settings_rounded,
-                  label: 'Pengaturan',
+                  icon: Icons.leaderboard_rounded,
+                  label: 'Peringkat',
                   isActive: currentIndex == 1,
                   onTap: () =>
                       ref.read(navigationIndexProvider.notifier).state = 1,
+                ),
+                _NavItem(
+                  icon: Icons.settings_rounded,
+                  label: 'Pengaturan',
+                  isActive: currentIndex == 2,
+                  onTap: () =>
+                      ref.read(navigationIndexProvider.notifier).state = 2,
                 ),
               ],
             ),

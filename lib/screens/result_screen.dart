@@ -70,7 +70,8 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
       });
 
       // Simpan hasil ASLI kuis ke database, jadi calon data training
-      // tambahan buat retrain model SVM nanti.
+      // tambahan buat retrain model SVM nanti, sekaligus masuk leaderboard.
+      final user = ref.read(userProvider);
       QuizResultService()
           .submitQuizResult(
             QuizResultRequest(
@@ -80,6 +81,7 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
               tingkatKesulitan: quizState.difficulty,
               persentaseBenar: percentage.toDouble(),
               lulus: percentage >= kKelulusanThreshold,
+              namaSiswa: user?.name,
             ),
           )
           .catchError((e) {
@@ -408,7 +410,37 @@ class _ResultScreenState extends ConsumerState<ResultScreen>
                       // Prediksi ML (SVM)
                       _buildPredictionSection(prediction),
 
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 16),
+
+                      // Leaderboard Button
+                      SizedBox(
+                        height: 46,
+                        child: OutlinedButton.icon(
+                          onPressed: () => context.push('/leaderboard'),
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(color: Color(0xFFD4AF37)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          icon: const Icon(
+                            Icons.leaderboard_rounded,
+                            color: Color(0xFFD4AF37),
+                            size: 20,
+                          ),
+                          label: const Text(
+                            'LIHAT PAPAN PERINGKAT',
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFFD4AF37),
+                              letterSpacing: 1.0,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 16),
 
                       // Play Again Button
                       Container(

@@ -1,27 +1,53 @@
+from datetime import datetime
+from typing import Optional, Literal
+
 from pydantic import BaseModel, Field
-from typing import Literal
+
+Difficulty = Literal["easy", "medium", "hard"]
 
 
 class PredictionRequest(BaseModel):
-    jawaban_benar: int = Field(..., ge=0, le=15, description="Jumlah jawaban benar (0-15)")
-    tingkat_kesulitan: Literal["easy", "medium", "hard"]
-
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "jawaban_benar": 11,
-                "tingkat_kesulitan": "medium",
-            }
-        }
+    jawaban_benar: int = Field(..., ge=0, le=15)
+    tingkat_kesulitan: Difficulty
 
 
 class ModelPrediction(BaseModel):
-    prediksi: Literal["Lulus", "Tidak Lulus"]
+    prediksi: str
     probabilitas_lulus: float
 
 
 class PredictionResponse(BaseModel):
     jawaban_benar: int
     tingkat_kesulitan: str
-    random_forest: ModelPrediction
     svm: ModelPrediction
+
+
+
+class QuizResultCreate(BaseModel):
+    total_soal: int = Field(..., gt=0)
+    jawaban_benar: int = Field(..., ge=0)
+    skor_akhir: int = Field(..., ge=0)
+    tingkat_kesulitan: int = Field(..., ge=1, le=3)  # 1=easy, 2=medium, 3=hard
+    persentase_benar: float = Field(..., ge=0, le=100)
+    kelulusan: int = Field(..., ge=0, le=1)  # hasil ASLI kuis, bukan prediksi
+    nama_siswa: Optional[str] = None
+
+
+class QuizResultOut(QuizResultCreate):
+    id: int
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class LeaderboardEntry(BaseModel):
+    peringkat: int
+    nama_siswa: str
+    skor_akhir: int
+    persentase_benar: float
+    tingkat_kesulitan: int
+    created_at: datetime
+
+    class Config:
+        from_attributes = True

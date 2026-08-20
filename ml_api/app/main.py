@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import prediction, model_metrics, quiz_results
+from app.routers import prediction, model_metrics, quiz_results, leaderboard
 from app.ml import predictor
 from app.database import init_db
 
@@ -40,6 +40,7 @@ app.add_middleware(
 app.include_router(prediction.router)
 app.include_router(model_metrics.router)
 app.include_router(quiz_results.router)
+app.include_router(leaderboard.router)
 
 
 @app.get("/")

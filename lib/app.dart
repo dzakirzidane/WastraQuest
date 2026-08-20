@@ -7,6 +7,7 @@ import 'screens/main_navigation.dart';
 import 'screens/quiz_screen.dart';
 import 'screens/result_screen.dart';
 import 'screens/model_info_screen.dart';
+import 'screens/leaderboard_screen.dart';
 import 'providers/user_provider.dart';
 
 class MyApp extends ConsumerWidget {
@@ -75,6 +76,10 @@ class MyApp extends ConsumerWidget {
         GoRoute(
           path: '/model-info',
           builder: (context, state) => const ModelInfoScreen(),
+        ),
+        GoRoute(
+          path: '/leaderboard',
+          builder: (context, state) => const LeaderboardScreen(),
         ),
       ],
     );

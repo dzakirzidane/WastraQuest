@@ -18,6 +18,5 @@ def predict_kelulusan(request: PredictionRequest):
     return PredictionResponse(
         jawaban_benar=request.jawaban_benar,
         tingkat_kesulitan=request.tingkat_kesulitan,
-        random_forest=result["random_forest"],
         svm=result["svm"],
     )

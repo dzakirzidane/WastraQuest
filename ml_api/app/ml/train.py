@@ -17,12 +17,16 @@ from sklearn.metrics import (
     classification_report,
 )
 
+from app.database import SessionLocal
+from app.models.db_models import QuizResult
+
 RANDOM_SEED = 42
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 DATA_PATH = os.path.join(BASE_DIR, "app", "data", "dataset.csv")
 MODELS_DIR = os.path.join(BASE_DIR, "saved_models")
 REPORT_PATH = os.path.join(BASE_DIR, "app", "data", "model_report.txt")
+METRICS_JSON_PATH = os.path.join(BASE_DIR, "app", "data", "model_metrics.json")
 PLOTS_DIR = os.path.join(BASE_DIR, "app", "data", "plots")
 FEATURE_COLUMNS = ["jawaban_benar", "tingkat_kesulitan"]
 TARGET_COLUMN = "kelulusan"
@@ -31,7 +35,35 @@ SCORING = ["accuracy", "precision", "recall", "f1"]
 
 
 def load_data():
-    df = pd.read_csv(DATA_PATH)
+    """Gabungin dataset.csv (data awal) dengan hasil kuis siswa yang udah
+    kesimpen di database (tabel quiz_results), supaya model retrain pakai
+    data terbaru juga."""
+    df_csv = pd.read_csv(DATA_PATH)
+
+    db = SessionLocal()
+    try:
+        rows = db.query(QuizResult).all()
+    finally:
+        db.close()
+
+    if rows:
+        df_db = pd.DataFrame([
+            {
+                "total_soal": r.total_soal,
+                "jawaban_benar": r.jawaban_benar,
+                "skor_akhir": r.skor_akhir,
+                "tingkat_kesulitan": r.tingkat_kesulitan,
+                "persentase_benar": r.persentase_benar,
+                "kelulusan": r.kelulusan,
+            }
+            for r in rows
+        ])
+        df = pd.concat([df_csv, df_db], ignore_index=True)
+        print(f"Data dari database ikut digabung: {len(df_db)} baris baru.")
+    else:
+        df = df_csv
+        print("Belum ada data baru di database, pakai dataset.csv saja.")
+
     X = df[FEATURE_COLUMNS]
     y = df[TARGET_COLUMN]
     return X, y
@@ -128,11 +160,43 @@ def plot_metrics(svm_holdout, save_path):
     print(f"Bar chart disimpan ke: {save_path}")
 
 
+def write_metrics_json(svm_model, svm_cv, svm_holdout, n_train, n_test, path):
+    """Ditulis biar endpoint GET /api/model-metrics punya data buat di-serve
+    ke layar 'Tentang Model AI' di Flutter (model_info_screen.dart)."""
+    params = svm_model.get_params()
+    data = {
+        "dataset_size": n_train + n_test,
+        "train_size": n_train,
+        "test_size": n_test,
+        "cv_folds": CV_FOLDS,
+        "svm": {
+            "cross_validation": {
+                metric: {"mean": vals["mean"], "std": vals["std"]}
+                for metric, vals in svm_cv.items()
+            },
+            "holdout": {
+                "accuracy": svm_holdout["accuracy"],
+                "precision": svm_holdout["precision"],
+                "recall": svm_holdout["recall"],
+                "f1_score": svm_holdout["f1_score"],
+            },
+            "params": {
+                "kernel": params["kernel"],
+                "C": params["C"],
+                "gamma": params["gamma"],
+            },
+        },
+    }
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
+    print(f"model_metrics.json disimpan ke: {path}")
+
+
 def main():
     os.makedirs(MODELS_DIR, exist_ok=True)
     os.makedirs(PLOTS_DIR, exist_ok=True)
 
-    print("Memuat dataset...")
+    print("Memuat dataset (CSV + database)...")
     X, y = load_data()
     print(f"Total data: {len(X)} | Fitur yang dipakai: {FEATURE_COLUMNS}")
 
@@ -194,6 +258,12 @@ def main():
         json.dump(FEATURE_COLUMNS, f, indent=2)
 
     print(f"Model final (dilatih di seluruh data) tersimpan di: {MODELS_DIR}")
+
+    write_metrics_json(
+        svm_model, svm_cv, svm_holdout,
+        n_train=len(X_train), n_test=len(X_test),
+        path=METRICS_JSON_PATH,
+    )
 
     with open(REPORT_PATH, "w", encoding="utf-8") as f:
         f.write("LAPORAN MODEL\n")
