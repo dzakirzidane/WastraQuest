@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../config/api_config.dart';
 import '../models/prediction_model.dart';
 
 class PredictionException implements Exception {
@@ -11,10 +12,8 @@ class PredictionException implements Exception {
 }
 
 class PredictionService {
-  static const String baseUrl = 'https://wastraquest-production.up.railway.app';
-
   Future<PredictionResponse> predictKelulusan(PredictionRequest request) async {
-    final url = Uri.parse('$baseUrl/predict');
+    final url = Uri.parse('${ApiConfig.baseUrl}/predict');
 
     try {
       final response = await http

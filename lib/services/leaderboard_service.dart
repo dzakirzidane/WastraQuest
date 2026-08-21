@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../config/api_config.dart';
 import '../models/leaderboard_entry.dart';
 
 class LeaderboardException implements Exception {
@@ -11,9 +12,6 @@ class LeaderboardException implements Exception {
 }
 
 class LeaderboardService {
-  static const String baseUrl = 'https://wastraquest-production.up.railway.app';
-
-  /// [tingkatKesulitan]: 1=easy, 2=medium, 3=hard. null = semua level.
   Future<List<LeaderboardEntry>> fetchLeaderboard({
     int? tingkatKesulitan,
     int limit = 50,
@@ -22,7 +20,8 @@ class LeaderboardService {
     if (tingkatKesulitan != null) {
       params['tingkat_kesulitan'] = '$tingkatKesulitan';
     }
-    final url = Uri.parse('$baseUrl/leaderboard').replace(queryParameters: params);
+    final url = Uri.parse('${ApiConfig.baseUrl}/leaderboard')
+        .replace(queryParameters: params);
 
     try {
       final response = await http.get(url).timeout(const Duration(seconds: 15));

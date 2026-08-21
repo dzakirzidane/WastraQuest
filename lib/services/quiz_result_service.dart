@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../config/api_config.dart';
 import '../models/quiz_result_model.dart';
 
 class QuizResultException implements Exception {
@@ -11,10 +12,8 @@ class QuizResultException implements Exception {
 }
 
 class QuizResultService {
-  static const String baseUrl = 'https://wastraquest-production.up.railway.app';
-
   Future<void> submitQuizResult(QuizResultRequest request) async {
-    final url = Uri.parse('$baseUrl/quiz-results');
+    final url = Uri.parse('${ApiConfig.baseUrl}/quiz-results');
 
     try {
       final response = await http
